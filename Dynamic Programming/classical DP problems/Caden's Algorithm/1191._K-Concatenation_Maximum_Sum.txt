@@ -1,0 +1,44 @@
+class Solution {
+public:
+    const int mod = 1e9+7;
+    int kConcatenationMaxSum(vector<int>& arr, int k) {
+        long long kaden = maxSubarray(arr);
+        if(k == 1) return kaden%mod;
+        long long sum = 0, prefix = prefixSum(arr), suffix = suffixSum(arr);
+        for(int i=0; i<arr.size(); i++) {
+            sum = (arr[i] + sum)%mod;
+        }
+        long long ans;
+        if(sum > 0) {
+             ans = max(sum * (k-2) + (prefix + suffix), kaden);
+        }
+        else {
+            ans = max((prefix + suffix), kaden);
+        }
+        return ans < 0 ? 0 : ans%mod;
+    }
+    long long maxSubarray(vector<int>&arr) {
+        long long maxSofar =0 , res = INT_MIN;
+        for(int x:arr) {
+            maxSofar = max((maxSofar+x)%mod, 0LL+x);
+            res = max(res, maxSofar);
+        }
+        return res%mod;
+    }
+    long long prefixSum(vector<int>&arr) {
+        long long prev = 0, res = INT_MIN;
+        for(int i=0; i<arr.size(); i++) {
+            prev = (prev+arr[i])%mod;
+            res = max(res, prev);
+        }
+        return res%mod;
+    }
+    long long suffixSum(vector<int>&arr) {
+        long long prev = 0, res = INT_MIN;
+        for(int i=arr.size()-1; i>=0; i--) {
+            prev = (prev+arr[i])%mod;
+            res = max(res, prev);
+        }
+        return res%mod;
+    }
+};

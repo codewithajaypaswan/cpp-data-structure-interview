@@ -15,6 +15,7 @@ void solve() {
     vector<ll>f1(26, 0), f2(26, 0);
     for(string c:s) {
         ans += f1[c[0] - 'a'] + f2[c[1] - 'a'] - 2*mp[c];
+        
         f1[c[0] - 'a']++; f2[c[1] - 'a']++;
         mp[c]++;
     }
